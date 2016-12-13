@@ -14,10 +14,7 @@ app.get('/', function(req, res){
 io.on('connection', function(socket){
 	socket.on('toggle', function(msg){
 		io.emit('toggle', msg);
-	});
-	socket.on('move', function(msg){
-		io.emit('move', msg);
-	});
+	});	
 });
 
 http.listen(3000, function(){

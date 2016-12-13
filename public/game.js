@@ -15,7 +15,7 @@ var _enemyMov = [4, 11, 12, 15, 35, 24, 56, 67, 89, 23, 99, 22];
 var _enemyPos = [15, 25, 40, 60, 80, 87, 120];
 var _healthPos = [18, 29, 66, 80, 90, 110];
 
- var hero = {
+var hero = {
   color: "#557a4c",
   power: 5,
   health: 5,
@@ -52,7 +52,7 @@ function toggleL() {
 }   
 
 socket.on('toggle', function(msg){
-   document.body.style.backgroundColor = msg;
+ document.body.style.backgroundColor = msg;
 });
 
 function start() {
@@ -71,14 +71,12 @@ function start() {
   hero.health = 5
 }
 
-start()
-
 document.onkeydown = function(e) {
 
   for (i = 0; i < _enemyPos.length; i++) {
     if (hero.position === _enemyPos[i]) {
-      hero.health--;
-      document.getElementById("health").innerHTML = "Your Health is" + "&nbsp" + hero.health + "";
+      hero.health--;      
+      document.getElementById("health").innerHTML = "Your Health is" + "&nbsp" + hero.health + "";      
     }
     if (hero.health === 0) {
       alert("You are Dead");
@@ -94,7 +92,6 @@ document.onkeydown = function(e) {
     if (hero.position === _healthPos[i]) {
       hero.health++;
       document.getElementById("health").innerHTML = "Your Health is" + "&nbsp" + hero.health + "";
-
     }
   }
 
