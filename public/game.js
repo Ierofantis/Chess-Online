@@ -49,11 +49,7 @@ function toggleD() {
 function toggleL() {
   document.body.style.backgroundColor = "black";
   socket.emit('toggle', document.body.style.backgroundColor);
-}   
-
-socket.on('toggle', function(msg){
- document.body.style.backgroundColor = msg;
-});
+}
 
 function start() {
   cell[SecretDoor[0]].style.backgroundColor = door.color;
@@ -63,15 +59,20 @@ function start() {
   }
 
   for (i = 0; i < _healthPos.length; i++) {
-    cell[_healthPos[i]].style.backgroundColor = items.color;
+    cell[_healthPos[i]].style.backgroundColor = items.color;    
   }
 
   var heroPos = cell[hero.position].style.backgroundColor = hero.color;
   hero.power = 5,
   hero.health = 5
 }
+start();
 
-document.onkeydown = function(e) {
+socket.on('toggle', function(msg){
+  document.body.style.backgroundColor = msg;
+});
+
+document.onkeydown = function(e){
 
   for (i = 0; i < _enemyPos.length; i++) {
     if (hero.position === _enemyPos[i]) {
@@ -83,33 +84,44 @@ document.onkeydown = function(e) {
       start();
     }
   }
-  if (hero.position === SecretDoor[0]) {
-    alert("You 've found the secret door!");
-    start();
+  if (hero.position === SecretDoor[0]) {  
+   document.getElementById("winner").innerHTML = "You 've found It" ;
+   socket.emit('move',start());
+ } 
+ for (i = 0; i < _enemyPos.length; i++) {
+  if (hero.position === _healthPos[i]) {
+    hero.health++;
+    socket.emit('t',document.getElementById("health").innerHTML = "Your Health is" + "&nbsp" + hero.health + "asd");
+    //socket.emit('move',document.getElementById("winner").innerHTML = "You have found It");
   }
+}
+socket.on('move', function(msg){
+ start()
+});
 
-  for (i = 0; i < _enemyPos.length; i++) {
-    if (hero.position === _healthPos[i]) {
-      hero.health++;
-      document.getElementById("health").innerHTML = "Your Health is" + "&nbsp" + hero.health + "";
-    }
-  }
+socket.emit('t',document.getElementById("health").innerHTML = "Your Health is" + "&nbsp" + hero.health + "");
 
-  if (e.keyCode === 37) {
-    cell[hero.position -= 1].style.backgroundColor = hero.color;
-    cell[hero.position + 1].style.backgroundColor = "lightblue"; 
-    
-  }
-  if (e.keyCode === 38) {
-    cell[hero.position -= 12].style.backgroundColor = hero.color;
-    cell[hero.position + 12].style.backgroundColor = "lightblue";
-  }
-  if (e.keyCode === 39) {
-    cell[hero.position += 1].style.backgroundColor = hero.color;
-    cell[hero.position - 1].style.backgroundColor = "lightblue";
-  }
-  if (e.keyCode === 40) {
-    cell[hero.position += 12].style.backgroundColor = hero.color;
-    cell[hero.position - 12].style.backgroundColor = "lightblue";
-  }
+socket.on('t', function(msg){
+ document.getElementById("health").innerHTML = msg;
+});
+
+
+
+if (e.keyCode === 37) {
+ cell[hero.position -= 1].style.backgroundColor = hero.color; 
+ cell[hero.position + 1].style.backgroundColor = "lightblue";   
+}   
+
+if (e.keyCode === 38) {
+  cell[hero.position -= 12].style.backgroundColor = hero.color;
+  cell[hero.position + 12].style.backgroundColor = "lightblue";
+}
+if (e.keyCode === 39) {
+  cell[hero.position += 1].style.backgroundColor = hero.color;
+  cell[hero.position - 1].style.backgroundColor = "lightblue";
+}
+if (e.keyCode === 40) {
+  cell[hero.position += 12].style.backgroundColor = hero.color;
+  cell[hero.position - 12].style.backgroundColor = "lightblue";
+}
 };
