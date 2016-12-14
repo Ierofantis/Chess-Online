@@ -2,4 +2,4 @@
 Socket game/Rogue on NodeJs/Socket.io
 
 In progress
-![alt tag](https://i.imgur.com//iDvUh.jpg)
+![alt tag]([img]http://i.imgur.com/NzuL8Sq.jpg[/img])
